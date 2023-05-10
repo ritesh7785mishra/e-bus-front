@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context } from "../../Context";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Email:", email, "Password:", password);
+  const navigate = useNavigate();
+  const { postUser } = useContext(Context);
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const { name, email, password, confirmPassword } = userData;
+  // console.log(userData, "This is user data ");
+  const handleChange = (e) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -15,7 +25,22 @@ const SignUp = () => {
       <h2 className="text-white text-3xl font-bold mb-6 text-center">
         Sign Up
       </h2>
-      <form onSubmit={handleSubmit}>
+      <form>
+        <div className="mb-4">
+          <label className="block text-white font-bold mb-2" htmlFor="name">
+            Name
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline capitalize"
+            id="name"
+            type="text"
+            placeholder="Enter your name"
+            name="name"
+            value={name}
+            onChange={handleChange}
+            required
+          />
+        </div>
         <div className="mb-4">
           <label className="block text-white font-bold mb-2" htmlFor="email">
             Email
@@ -26,7 +51,8 @@ const SignUp = () => {
             type="email"
             placeholder="Enter your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            onChange={handleChange}
             required
           />
         </div>
@@ -40,7 +66,8 @@ const SignUp = () => {
             type="password"
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            onChange={handleChange}
             required
           />
         </div>
@@ -57,19 +84,28 @@ const SignUp = () => {
             type="password"
             placeholder="Confirm your password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            name="confirmPasword"
+            onChange={handleChange}
             required
           />
         </div>
         <div className="flex justify-between items-center ">
           <button
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "
-            type="submit"
+            onClick={() => {
+              postUser(userData);
+              navigate("/");
+            }}
           >
             Sign Up
           </button>
 
-          <p className="text-green-400 font-bold cursor-pointer">
+          <p
+            className="text-green-400 font-bold cursor-pointer"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
             Back to login
           </p>
         </div>

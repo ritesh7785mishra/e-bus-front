@@ -1,14 +1,14 @@
 import React from "react";
-import blobTopLeft from "../assets/blob-top-left.svg";
-import blobTopRight from "../assets/blob-top-right2.png";
+import blobTopLeft from "../assets/left-blob.png";
+import blobTopRight from "../assets/right-blob.png";
 
 const blobs = () => {
   return (
-    <div className="mt-56 -z-50 ">
-      <div className="blob-top-left absolute top-0 left-0 -ml-20 -mt-28 -z-20">
+    <div className="mt-20  -z-50 ">
+      <div className="blob-top-left w-32 sm:w-40 md:w-48 lg:56 fixed top-0 left-0 z-50">
         <img src={blobTopLeft} alt="" />
       </div>
-      <div className="blob-top-right absolute right-0 top-0 -z-30">
+      <div className="blob-top-right w-36 sm:w-44 md:w-48 lg:w-52 fixed right-0 top-0 z-50">
         <img src={blobTopRight} alt="" />
       </div>
     </div>

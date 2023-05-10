@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../../Context";
 
 const ConductorLogin = () => {
+  const navigate = useNavigate();
+  const {
+    handleConductorLogin,
+    currentConductor,
+    conductorLoggedIn,
+    getConductorProfile,
+  } = useContext(Context);
+
+  const [conductorLogin, setConductorLogin] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = conductorLogin;
+
+  const handleChange = (e) => {
+    setConductorLogin({
+      ...conductorLogin,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
-    <section className=" w-3/5  mx-auto ">
+    <section className=" w-full sm:w-5/6 md:w-4/6 lg:w-3/6  mx-auto ">
       <div className="w-full  px-4 mx-auto pt-6">
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6  rounded-lg  border-0">
           <div className="rounded-t mb-0 px-6 py-6">
@@ -45,12 +68,16 @@ const ConductorLogin = () => {
               <div className="relative w-full mb-3">
                 <label
                   className="block uppercase text-white text-xs font-bold mb-2"
-                  for="grid-password"
+                  htmlFor="email"
                 >
                   Email
                 </label>
                 <input
                   type="email"
+                  id="email"
+                  value={email}
+                  name="email"
+                  onChange={handleChange}
                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
                 />
@@ -58,12 +85,15 @@ const ConductorLogin = () => {
               <div className="relative w-full mb-3">
                 <label
                   className="block uppercase text-white text-xs font-bold mb-2"
-                  for="grid-password"
+                  htmlFor="password"
                 >
                   Password
                 </label>
                 <input
                   type="password"
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Password"
                 />
@@ -84,6 +114,17 @@ const ConductorLogin = () => {
                 <button
                   className="bg-green-600 text-white text-sm font-bold uppercase px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 mx-auto "
                   type="button"
+                  onClick={() => {
+                    handleConductorLogin(conductorLogin).then(() => {
+                      let conductorAuthToken =
+                        localStorage.getItem("conductorAuthToken");
+                      if (conductorAuthToken) {
+                        navigate("/conductor-panel");
+                      } else {
+                        alert("Not a valid conductor");
+                      }
+                    });
+                  }}
                 >
                   Sign In
                 </button>
@@ -91,7 +132,12 @@ const ConductorLogin = () => {
 
               <div className="flex items-center mt-10">
                 <p className="text-white ml-auto">Back To User Login</p>
-                <button className="bg-green-600 text-white text-sm font-bold uppercase px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ml-4 ">
+                <button
+                  className="bg-green-600 text-white text-sm font-bold uppercase px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ml-4 "
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
                   User Login
                 </button>
               </div>

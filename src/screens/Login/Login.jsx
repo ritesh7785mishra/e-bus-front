@@ -1,8 +1,56 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../../Context";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { userLogin, getUserProfile } = useContext(Context);
+
+  useEffect(() => {
+    let authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      getUserProfile();
+      navigate("/home");
+    }
+  }, []);
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [showPass, setShowPass] = useState(false);
+  const [warning, setWarning] = useState(false);
+  const { email, password } = loginData;
+  const handleChange = (e) => {
+    setWarning(false);
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const validation = async () => {
+    if (email == "" || password == "") {
+      setWarning(true);
+    } else if (
+      email == "ritesh7785mishra@gmail.com" &&
+      password == "@123Ritesh"
+    ) {
+      navigate("/admin-Panel");
+    } else {
+      await userLogin(loginData).then(() => {
+        let authToken = localStorage.getItem("authToken");
+        if (authToken) {
+          navigate("/user-panel");
+        } else {
+          alert("Not a valid user");
+        }
+      });
+    }
+  };
+
   return (
-    <section className=" w-3/5  mx-auto">
+    <section className=" w-full sm:w-5/6 md:w-4/6 lg:w-3/6  mx-auto">
       <div className="w-full  px-4 mx-auto pt-6">
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6  rounded-lg  border-0">
           <div className="rounded-t mb-0 px-6 py-6">
@@ -45,12 +93,15 @@ const Login = () => {
               <div className="relative w-full mb-3">
                 <label
                   className="block uppercase text-white text-xs font-bold mb-2"
-                  for="grid-password"
+                  htmlFor="email"
                 >
                   Email
                 </label>
                 <input
                   type="email"
+                  value={email}
+                  name="email"
+                  onChange={handleChange}
                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
                 />
@@ -63,11 +114,20 @@ const Login = () => {
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={showPass ? "text" : "password"}
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Password"
                 />
               </div>
+              <p
+                className="text-white"
+                style={{ visibility: warning ? "visible" : "hidden" }}
+              >
+                Please fill email and password
+              </p>
               <div>
                 <label className="inline-flex items-center cursor-pointer">
                   <input
@@ -80,20 +140,35 @@ const Login = () => {
                   </span>
                 </label>
               </div>
-              <div className="text-center mt-6">
-                <button
-                  className="bg-green-600 text-white text-sm font-bold uppercase px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 mx-auto "
-                  type="button"
-                >
-                  {" "}
-                  Sign In{" "}
-                </button>
-              </div>
+              <div className="text-center mt-6 flex justify-between items-center ">
+                <div className="">
+                  <button
+                    className="bg-green-600 text-white text-sm font-bold uppercase px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1  -ml-5"
+                    type="button"
+                    onClick={() => {
+                      validation();
+                    }}
+                  >
+                    Sign In
+                  </button>
+                  <p
+                    className="capitalize mt-2 text-green-300 hover:text-green-500 font-mono font-medium cursor-pointer"
+                    onClick={() => {
+                      navigate("/signup");
+                    }}
+                  >
+                    Or Signup here
+                  </p>
+                </div>
 
-              <div className="flex items-center mt-10">
-                <p className="text-white ml-auto">Or Sign up here</p>
-                <button className="bg-green-600 text-white text-sm font-bold uppercase px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ml-4 ">
-                  Signup
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white text-sm  uppercase px-4 py-2 rounded-md self-start"
+                  type="button"
+                  onClick={() => {
+                    navigate("/conductor-login");
+                  }}
+                >
+                  Login as conductor
                 </button>
               </div>
             </form>

@@ -1,9 +1,10 @@
 import React from "react";
 import "./Welcome.css";
-import Blobs from "../../components/blobs";
+import { useNavigate } from "react-router-dom";
 import BottomDesign from "../../components/BottomDesign";
 
 const Welcome = () => {
+  const navigate = useNavigate();
   return (
     <div className="welcome-page">
       <div className="welcome-text absolute top-64 ml-12 p-4">
@@ -16,7 +17,12 @@ const Welcome = () => {
           consequatur?
         </p>
       </div>
-      <button className="get-started-btn text-white  absolute bottom-20 left-12 p-3 px-8 rounded-2xl cursor-pointer font-bold tracking-wider">
+      <button
+        className="get-started-btn text-white  absolute bottom-20 left-12 p-3 px-8 rounded-2xl cursor-pointer font-bold tracking-wider"
+        onClick={() => {
+          navigate("/login");
+        }}
+      >
         Get Started
       </button>
       <BottomDesign />

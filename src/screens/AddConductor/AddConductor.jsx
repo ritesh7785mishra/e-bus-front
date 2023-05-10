@@ -1,14 +1,63 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../../Context";
 
 const AddConductor = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const { handleAddConductor, fetchConductors } = useContext(Context);
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Email:", email, "Password:", password);
-  };
+  const [userProperties, setUserProperties] = useState({
+    phoneNumber: "",
+    email: "",
+    aadharNumber: "",
+    conductorId: "",
+    address: "",
+
+    district: "",
+    state: "",
+
+    country: "India",
+    password: "",
+    confirmPassword: "",
+    profileImage: "img/users/default.jpeg",
+  });
+
+  const {
+    phoneNumber,
+    email,
+    aadharNumber,
+    conductorId,
+    address,
+
+    district,
+    state,
+
+    country,
+    password,
+    confirmPassword,
+  } = userProperties;
+
+  function handleChange(e) {
+    setUserProperties({
+      ...userProperties,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  function handleNameChange(e) {
+    setUserName(e.target.value);
+  }
+
+  async function handleSubmit() {
+    let userObj = { name: userName, properties: { ...userProperties } };
+    handleAddConductor(userObj)
+      .then(() => fetchConductors())
+      .then(() => {
+        navigate("/admin-panel");
+      });
+  }
 
   return (
     <div className=" mx-auto  p-6 max-w-xl">
@@ -25,108 +74,164 @@ const AddConductor = () => {
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
             <label
-              htmlFor="first_name"
+              htmlFor="userName"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              First name
+              Name
             </label>
             <input
               type="text"
-              id="first_name"
+              id="userName"
+              name="name"
+              onChange={handleNameChange}
+              value={userName}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="John"
+              placeholder="Enter Your Name"
               required
             />
           </div>
           <div>
             <label
-              htmlFor="last_name"
+              htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Last name
+              Email Address
             </label>
             <input
-              type="text"
-              id="last_name"
+              type="email"
+              id="email"
+              value={email}
+              name="email"
+              onChange={(e) => handleChange(e)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Doe"
+              placeholder="Enter Your Email"
               required
             />
           </div>
           <div>
             <label
-              htmlFor="company"
+              htmlFor="phoneNumber"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Company
-            </label>
-            <input
-              type="text"
-              id="company"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Flowbite"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="phone"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Phone number
+              Contact Number
             </label>
             <input
               type="tel"
-              id="phone"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={phoneNumber}
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="123-456-789-0"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="aadharNumber"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Aadhar Number
+            </label>
+            <input
+              type="tel"
+              id="aadharNumber"
+              name="aadharNumber"
+              value={aadharNumber}
+              onChange={handleChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="123-45-678"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
               required
             />
           </div>
           <div>
             <label
-              htmlFor="website"
+              htmlFor="conductorId"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Website URL
+              Conductor ID
             </label>
             <input
-              type="url"
-              id="website"
+              type="text"
+              id="conductorId"
+              value={conductorId}
+              onChange={handleChange}
+              name="conductorId"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="flowbite.com"
+              placeholder="Conductor ID"
               required
             />
           </div>
           <div>
             <label
-              htmlFor="visitors"
+              htmlFor="address"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Unique visitors (per month)
+              Address
             </label>
             <input
-              type="number"
-              id="visitors"
+              type="text"
+              id="address"
+              value={address}
+              onChange={handleChange}
+              name="address"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder=""
+              placeholder="Address"
               required
             />
           </div>
         </div>
         <div className="mb-6">
           <label
-            htmlFor="email"
+            htmlFor="district"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Email address
+            District
           </label>
           <input
-            type="email"
-            id="email"
+            type="text"
+            id="district"
+            name="district"
+            value={district}
+            onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="john.doe@company.com"
+            placeholder="District"
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="state"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            State
+          </label>
+          <input
+            type="text"
+            id="state"
+            name="state"
+            value={state}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="State"
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="country"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Country
+          </label>
+          <input
+            type="text"
+            id="country"
+            name="country"
+            value={country}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="India"
             required
           />
         </div>
@@ -140,23 +245,29 @@ const AddConductor = () => {
           <input
             type="password"
             id="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="•••••••••"
+            placeholder=".........."
             required
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="confirm_password"
+            htmlFor="confirmPassword"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Confirm password
+            Confirm Password
           </label>
           <input
-            type="password"
-            id="confirm_password"
+            type="text"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="•••••••••"
+            placeholder=".........."
             required
           />
         </div>
@@ -185,10 +296,10 @@ const AddConductor = () => {
           </label>
         </div>
         <button
-          type="submit"
+          onClick={handleSubmit}
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Submit
+          Add To Server
         </button>
       </form>
     </div>
