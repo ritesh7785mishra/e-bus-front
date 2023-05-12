@@ -204,10 +204,7 @@ const Home = () => {
             Logout
           </button>
         </div>
-        <label
-          htmlFor="routes"
-          className="block mb-4  font-medium text-gray-900 dark:text-gray-400"
-        >
+        <label htmlFor="routes" className="block mb-4  font-medium text-white">
           Select Route
         </label>
         <select
@@ -221,10 +218,16 @@ const Home = () => {
             fetchSelectedRouteBuses(route);
           }}
         >
-          <option defaultValue>Choose Your Route</option>
+          <option defaultValue className="text-white">
+            Choose Your Route
+          </option>
 
           {routeOptions.map((route) => {
-            return <option value={route}>{route}</option>;
+            return (
+              <option className="text-white" value={route}>
+                {route}
+              </option>
+            );
           })}
         </select>
 
