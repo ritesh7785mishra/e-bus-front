@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./screens/Login/Login";
 import Welcome from "./screens/Welcome/Welcome";
-import Blobs from "./components/blobs";
 
 import ConductorLogin from "./screens/ConductorLogin/Conductor";
 import AdminPanel from "./screens/AdminPanel/AdminPanel";
