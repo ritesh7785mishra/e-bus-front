@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../../Context";
 import { useNavigate } from "react-router-dom";
+import Blobs from "../../components/Blobs";
 
 const Signup = () => {
   const navigate = useNavigate();

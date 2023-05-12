@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../Context";
-import Blobs from "../../components/blobs";
+import Blobs from "../../components/Blobs";
 
 const Login = () => {
   const navigate = useNavigate();

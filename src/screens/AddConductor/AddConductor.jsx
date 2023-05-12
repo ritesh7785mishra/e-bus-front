@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../Context";
-import Blobs from "../../components/blobs";
+import Blobs from "../../components/Blobs";
 
 const AddConductor = () => {
   const { handleAddConductor, fetchConductors } = useContext(Context);

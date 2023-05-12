@@ -2,7 +2,7 @@ import React from "react";
 import "./Welcome.css";
 import { useNavigate } from "react-router-dom";
 import BottomDesign from "../../components/BottomDesign";
-import Blobs from "../../components/blobs";
+import Blobs from "../../components/Blobs";
 
 const Welcome = () => {
   const navigate = useNavigate();
