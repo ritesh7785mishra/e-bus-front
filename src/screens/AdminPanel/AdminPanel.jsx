@@ -4,12 +4,21 @@ import { Context } from "../../Context";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
-  const { allConductors, fetchConductors, handleConductorDelete } =
-    useContext(Context);
+  const {
+    allConductors,
+    fetchConductors,
+    handleConductorDelete,
+    setLoader,
+    loader,
+  } = useContext(Context);
 
   useEffect(() => {
     fetchConductors();
   }, []);
+
+  if (allConductors) {
+    setLoader(false);
+  }
 
   // const conductors = [
   //   {

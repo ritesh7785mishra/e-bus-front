@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../Context";
+import Blobs from "../../components/blobs";
 
 const ConductorHome = () => {
   const navigate = useNavigate();
@@ -19,8 +20,12 @@ const ConductorHome = () => {
     setCurrentConductor,
     getConductorProfile,
     setConductorLoggedIn,
+    setLoader,
   } = useContext(Context);
 
+  if (currentConductor) {
+    setLoader(false);
+  }
   const { VITE_baseServerUrl } = import.meta.env;
 
   const routeOptions = [
@@ -128,130 +133,133 @@ const ConductorHome = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto m-4 p-4 ">
-      <h1 className="text-4xl text-white text-center font-semibold mb-10">
-        Welcome,
-        <span className="text-4xl text-green-500 tracking-wider ml-4 capitalize">
-          {name}
-        </span>
-      </h1>
+    <div>
+      <Blobs />
+      <div className="max-w-xl mx-auto m-4 p-4 ">
+        <h1 className="text-4xl text-white text-center font-semibold mb-10">
+          Welcome,
+          <span className="text-4xl text-green-500 tracking-wider ml-4 capitalize">
+            {name}
+          </span>
+        </h1>
 
-      <label
-        htmlFor="routes"
-        className="block mb-4  font-medium text-gray-900 dark:text-gray-400"
-      >
-        Select Route
-      </label>
-      <select
-        id="routes"
-        className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
-        value={currentRoute}
-        onChange={(e) => {
-          const route = e.target.value;
-          console.log(route);
+        <label
+          htmlFor="routes"
+          className="block mb-4  font-medium text-gray-900 dark:text-gray-400"
+        >
+          Select Route
+        </label>
+        <select
+          id="routes"
+          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
+          value={currentRoute}
+          onChange={(e) => {
+            const route = e.target.value;
+            console.log(route);
 
-          if (route == "Choose Your Route") {
-            setCurrentRoute("");
-            setShareLocationBtn(false);
-          } else {
-            setCurrentRoute(route);
-            updateCurrentRoute(currentRoute);
-          }
-        }}
-      >
-        <option defaultValue="">Choose Your Route</option>
+            if (route == "Choose Your Route") {
+              setCurrentRoute("");
+              setShareLocationBtn(false);
+            } else {
+              setCurrentRoute(route);
+              updateCurrentRoute(currentRoute);
+            }
+          }}
+        >
+          <option defaultValue="">Choose Your Route</option>
 
-        {routeOptions.map((route) => {
-          return <option value={route}>{route}</option>;
-        })}
-      </select>
+          {routeOptions.map((route) => {
+            return <option value={route}>{route}</option>;
+          })}
+        </select>
 
-      <div className="flex flex-col mb-5">
-        {currentRoute ? (
+        <div className="flex flex-col mb-5">
+          {currentRoute ? (
+            <button
+              className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 self-center mb-7"
+              onClick={() => {
+                setShareLocationBtn(true);
+                setStopLocationBtn(false);
+              }}
+            >
+              Start Sharing Location
+            </button>
+          ) : (
+            <button
+              className=" text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2  self-center mb-7"
+              disabled
+            >
+              Start Sharing Location
+            </button>
+          )}
           <button
-            className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 self-center mb-7"
+            className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 self-center"
             onClick={() => {
-              setShareLocationBtn(true);
-              setStopLocationBtn(false);
+              setShareLocationBtn(false);
+              setStopLocationBtn(true);
             }}
           >
-            Start Sharing Location
+            Stop Sharing Location
           </button>
-        ) : (
+        </div>
+
+        <div className="flex mb-5 justify-evenly">
           <button
-            className=" text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2  self-center mb-7"
-            disabled
+            className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
+            onClick={() => {
+              setFullBtn(true);
+              updateSeatStatus("Full");
+              setStandingBtn(false);
+              setEmptySeatsBtn(false);
+            }}
           >
-            Start Sharing Location
+            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0">
+              Full
+            </span>
           </button>
-        )}
-        <button
-          className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 self-center"
-          onClick={() => {
-            setShareLocationBtn(false);
-            setStopLocationBtn(true);
-          }}
-        >
-          Stop Sharing Location
-        </button>
-      </div>
 
-      <div className="flex mb-5 justify-evenly">
-        <button
-          className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
-          onClick={() => {
-            setFullBtn(true);
-            updateSeatStatus("Full");
-            setStandingBtn(false);
-            setEmptySeatsBtn(false);
-          }}
-        >
-          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0">
-            Full
-          </span>
-        </button>
+          <button
+            className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
+            onClick={() => {
+              setFullBtn(false);
+              setStandingBtn(true);
+              updateSeatStatus("Standing-Space");
+              setEmptySeatsBtn(false);
+            }}
+          >
+            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0">
+              Standing Space
+            </span>
+          </button>
 
-        <button
-          className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
-          onClick={() => {
-            setFullBtn(false);
-            setStandingBtn(true);
-            updateSeatStatus("Standing-Space");
-            setEmptySeatsBtn(false);
-          }}
-        >
-          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0">
-            Standing Space
-          </span>
-        </button>
+          <button
+            className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+            onClick={() => {
+              setFullBtn(false);
+              setStandingBtn(false);
+              setEmptySeatsBtn(true);
+              updateSeatStatus("Empty");
+            }}
+          >
+            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0">
+              Empty
+            </span>
+          </button>
+        </div>
 
-        <button
-          className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
-          onClick={() => {
-            setFullBtn(false);
-            setStandingBtn(false);
-            setEmptySeatsBtn(true);
-            updateSeatStatus("Empty");
-          }}
-        >
-          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0">
-            Empty
-          </span>
-        </button>
-      </div>
-
-      <div className="mb-5 flex">
-        <button
-          className=" py-2 px-4 text-white bg-red-500 hover:bg-red-700 rounded-md font-mono font-bold tracking-wider ml-auto"
-          onClick={() => {
-            localStorage.removeItem("conductorAuthToken");
-            setCurrentConductor({});
-            setConductorLoggedIn(false);
-            navigate("/conductor-login");
-          }}
-        >
-          Logout
-        </button>
+        <div className="mb-5 flex">
+          <button
+            className=" py-2 px-4 text-white bg-red-500 hover:bg-red-700 rounded-md font-mono font-bold tracking-wider ml-auto"
+            onClick={() => {
+              localStorage.removeItem("conductorAuthToken");
+              setCurrentConductor({});
+              setConductorLoggedIn(false);
+              navigate("/conductor-login");
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );

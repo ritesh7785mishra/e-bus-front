@@ -8,6 +8,8 @@ function ContextProvider({ children }) {
   const [currentConductor, setCurrentConductor] = useState({});
   const [conductorLoggedIn, setConductorLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [loader, setLoader] = useState(false);
+  const [showBlob, setShowBlob] = useState(true);
 
   const { VITE_baseServerUrl } = import.meta.env;
 
@@ -203,7 +205,6 @@ function ContextProvider({ children }) {
   //logout user
   const handleUserLogout = async () => {
     localStorage.removeItem("authToken");
-    localStorage.removeItem("userEmail");
     setCurrentUser({});
   };
 
@@ -225,6 +226,9 @@ function ContextProvider({ children }) {
         userLogin,
         currentUser,
         handleUserLogout,
+        setLoader,
+        loader,
+        setShowBlob,
       }}
     >
       {children}

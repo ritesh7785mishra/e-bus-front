@@ -8,9 +8,11 @@ import { Context } from "../../Context";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { currentUser, handleUserLogout, getUserProfile } = useContext(Context);
+  const { currentUser, handleUserLogout, getUserProfile, setLoader } =
+    useContext(Context);
+
   const [currentRoute, setCurrentRoute] = useState("");
-  const [counter, setCounter] = useState(0);
+
   const { name } = currentUser;
   const { VITE_apiKey, VITE_baseServerUrl } = import.meta.env;
 
@@ -152,6 +154,10 @@ const Home = () => {
       map.remove();
     };
   }, [longitude, latitude]);
+
+  if (currentUser) {
+    setLoader(false);
+  }
 
   const fetchSelectedRouteBuses = async (route) => {
     try {

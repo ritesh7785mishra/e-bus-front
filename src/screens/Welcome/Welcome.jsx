@@ -2,11 +2,13 @@ import React from "react";
 import "./Welcome.css";
 import { useNavigate } from "react-router-dom";
 import BottomDesign from "../../components/BottomDesign";
+import Blobs from "../../components/blobs";
 
 const Welcome = () => {
   const navigate = useNavigate();
   return (
     <div className="welcome-page">
+      <Blobs />
       <div className="welcome-text absolute top-64 ml-12 p-4">
         <h1 className="welcome-heading text-white text-6xl mb-6">
           Ride
