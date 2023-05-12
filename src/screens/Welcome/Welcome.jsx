@@ -15,8 +15,7 @@ const Welcome = () => {
           <div className="welcome-heading-dot w-3 h-3 bg-green-500 rounded-full inline-block ml-2"></div>
         </h1>
         <p className="welcome-subtext text-white">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui,
-          consequatur?
+          "Effortlessly glide through the city, hop on our e-buses today!"
         </p>
       </div>
       <button
