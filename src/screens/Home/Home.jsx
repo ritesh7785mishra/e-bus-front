@@ -184,7 +184,10 @@ const Home = () => {
   };
 
   return (
-    <div className="absolute top-0 w-full h-full p-4 lg:flex lg:justify-between lg:flex-row-reverse">
+    <div className="absolute top-0 w-full h-full p-4 lg:flex lg:justify-between">
+      <div className="map-component rounded-xl h-4/5 lg:h-[calc(100vh-30px)] lg:w-7/12  ">
+        <div ref={mapElement} className="w-full h-full rounded-lg"></div>
+      </div>
       <div className="max-w-3xl mx-auto lg:mx-0 lg:w-4/12 lg:mr-8">
         <div className="flex items-center justify-between mb-10 mt-5">
           <h1 className="text-4xl text-white text-center font-semibold ">
@@ -241,10 +244,6 @@ const Home = () => {
             All Buses
           </button>
         </div>
-      </div>
-
-      <div className="map-component rounded-xl h-4/5 lg:h-[calc(100vh-30px)] lg:w-7/12  ">
-        <div ref={mapElement} className="w-full h-full rounded-lg"></div>
       </div>
     </div>
   );
