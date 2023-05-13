@@ -145,13 +145,13 @@ const ConductorHome = () => {
 
         <label
           htmlFor="routes"
-          className="block mb-4  font-medium text-gray-900 dark:text-gray-400"
+          className="block mb-4  font-medium text-white dark:text-gray-400"
         >
           Select Route
         </label>
         <select
           id="routes"
-          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
+          className="border border-gray-300 text-white text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
           value={currentRoute}
           onChange={(e) => {
             const route = e.target.value;
