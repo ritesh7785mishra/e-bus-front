@@ -122,6 +122,8 @@ const ConductorLogin = () => {
                           setLoader(true);
                           navigate("/conductor-panel");
                         } else {
+                          setLoader(false);
+                          navigate("/conductor-login");
                           alert("Not a valid conductor");
                         }
                       });

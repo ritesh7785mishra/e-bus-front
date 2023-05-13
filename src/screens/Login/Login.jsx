@@ -44,6 +44,8 @@ const Login = () => {
         if (authToken) {
           navigate("/user-panel");
         } else {
+          setLoader(false);
+          navigate("/login");
           alert("Not a valid user");
         }
       });
