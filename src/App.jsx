@@ -12,12 +12,14 @@ import Home from "./screens/Home/Home";
 import Signup from "./screens/Signup/Signup";
 import Loader from "./components/Loader";
 import { Context } from "./Context";
+import Navbar from "./components/navbar";
 
 function App() {
   const { loader } = useContext(Context);
 
   return (
     <div className="app-container">
+      <Navbar />
       <Loader isLoading={loader} />
       <Router>
         <Routes>

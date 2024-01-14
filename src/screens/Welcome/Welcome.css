@@ -1,15 +1,84 @@
-body {
-  max-width: 100vw;
+.text-intro {
+	display: inline-flex;
+	padding: 4px 37.69px 0px 0px;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-start;
+	gap: 37px;
+}
+.top-t {
+	display: flex;
+	width: 223.93px;
+	height: 19px;
+	flex-direction: column;
+	justify-content: center;
+	font-family: "Inter";
+	font-size: 19.688px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 28px; /* 142.222% */
+	text-transform: uppercase;
+	background: linear-gradient(90deg, #003e39 0%, #ec92af 32%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
-.get-started-btn {
-  background-color: #17262a;
+.bold-t {
+	display: flex;
+	width: 412.7px;
+	height: 115px;
+	flex-direction: column;
+	justify-content: center;
+	color: #003e39;
+	font-family: "Inter";
+	font-size: 59.648px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: 60px; /* 100.589% */
+	letter-spacing: -1.8px;
+	text-transform: uppercase;
 }
 
-.under-design {
-  background-color: #08b681;
+.sub-t {
+	display: flex;
+	width: 570.12px;
+	height: 49px;
+	flex-direction: column;
+	justify-content: center;
+	color: #003e39;
+	font-family: "Inter";
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 30px; /* 150% */
 }
-.under-design-below {
-  background-color: #174d3c;
-  filter: blur();
+.intro-b {
+	display: flex;
+	width: 293.69px;
+	height: 46px;
+	padding: 9px 35.8px 9px 36px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 180px;
+	background: #cafdc6;
+}
+
+.intro-b p {
+	display: flex;
+	width: 221.89px;
+	height: 28px;
+	flex-direction: column;
+	justify-content: center;
+	flex-shrink: 0;
+	color: #003e39;
+	font-family: "Inter";
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 28px; /* 175% */
+}
+
+.bamboo_i {
+	max-width: 15px;
 }

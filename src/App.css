@@ -1,9 +1,10 @@
 * {
-  margin: 0;
-  box-sizing: border-box;
-  background-color: #17262a;
+	margin: 0;
+	box-sizing: border-box;
+	background-color: #17262a;
+	padding: 0;
 }
 
 img {
-  width: 100%;
+	width: 100%;
 }
