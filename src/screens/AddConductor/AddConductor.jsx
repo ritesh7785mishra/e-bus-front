@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../Context";
 import Blobs from "../../components/Blobs";
+import { LeftSection } from "../../components/leftSection/leftSection";
+import { RightSection } from "../../components/rightSection/rightSection";
+
 
 const AddConductor = () => {
   const { handleAddConductor, fetchConductors } = useContext(Context);
@@ -61,266 +64,87 @@ const AddConductor = () => {
   }
 
   return (
-    <main className="">
+    <main className="flex">
 
-      <div className=" mx-auto  p-6 max-w-xl">
-        <div className="flex items-center mb-14">
-          <h2 className="text-white text-4xl font-bold mb-6 text-center">
-            Add Conductor
-          </h2>
-          <p
-            className="text-green-400 font-bold cursor-pointer ml-auto"
-            onClick={() => {
-              navigate("/admin-panel");
-            }}
-          >
-            Back to Admin Panel
-          </p>
+      <LeftSection >
+        <div className="form-box mt-10 ">
+          <div className=" mx-auto  p-6 max-w-xl">
+            <div className="flex items-center mb-10">
+              <h2 className="text-white text-4xl font-bold mb-6 text-center">
+                Add Conductor
+              </h2>
+              <p
+                className="text-green-400 font-bold cursor-pointer ml-auto"
+                onClick={() => {
+                  navigate("/admin-panel");
+                }}
+              >
+                Back to Admin Panel
+              </p>
+            </div>
+          </div>
+          <form>
+            {/* <ProfileUpload /> */}
+            <div className="form-row">
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="conductorId">Conductor ID</label>
+                <input type="text" className="form-control" id="conductorId" placeholder="Conductor ID" />
+              </div>
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="name">Name</label>
+                <input type="text" className="form-control" id="name" placeholder="Name" />
+              </div>
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="inputEmail4">Email</label>
+                <input type="email" className="form-control" id="inputEmail4" placeholder="Email" />
+              </div>
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="inputPassword4">Password</label>
+                <input type="password" className="form-control" id="inputPassword4" placeholder="Password" />
+              </div>
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="contact_no">Contact Number</label>
+                <input type="text" className="form-control" id="contact_no" placeholder="1234567890" />
+              </div>
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="aadhar_no">Aadhar Number</label>
+                <input type="text" className="form-control" id="aadhar_no" placeholder="Aadhar Number" />
+              </div>
+            </div>
+
+
+            <div className="form-row">
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="inputCity">City</label>
+                <input type="text" className="form-control" id="inputCity" placeholder="City" />
+              </div>
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="inputState">State</label>
+                <select id="inputState" className="form-control">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+
+              <div className="form-group col-md-4">
+                <label className="text-gray-100" htmlFor="inputZip">Pin Code</label>
+                <input type="text" className="form-control" id="inputZip" placeholder="Pin Code" />
+              </div>
+
+
+            </div>
+
+            <div className="flex justify-center items-center mt-6">
+              <button type="submit" className="btn btn-primary ">Add Conductor</button>
+            </div>
+
+
+          </form>
         </div>
-      </div>
 
-      <form className="flex bg-green-400  justify-between">
-        <section className="bg-yellow-400">
-          <div className="">
-            <div className="bg-red-600">
-              <label
-                htmlFor="userName"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="userName"
-                name="name"
-                onChange={handleNameChange}
-                value={userName}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Enter Your Name"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                name="email"
-                onChange={(e) => handleChange(e)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Enter Your Email"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="phoneNumber"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Contact Number
-              </label>
-              <input
-                type="tel"
-                id="phoneNumber"
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={handleChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="123-456-789-0"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="aadharNumber"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Aadhar Number
-              </label>
-              <input
-                type="tel"
-                id="aadharNumber"
-                name="aadharNumber"
-                value={aadharNumber}
-                onChange={handleChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="123-45-678"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="conductorId"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Conductor ID
-              </label>
-              <input
-                type="text"
-                id="conductorId"
-                value={conductorId}
-                onChange={handleChange}
-                name="conductorId"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Conductor ID"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="address"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Address
-              </label>
-              <input
-                type="text"
-                id="address"
-                value={address}
-                onChange={handleChange}
-                name="address"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Address"
-                required
-              />
-            </div>
-          </div>
+      </LeftSection>
 
-          <div className="mb-6">
-            <label
-              htmlFor="district"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              District
-            </label>
-            <input
-              type="text"
-              id="district"
-              name="district"
-              value={district}
-              onChange={handleChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="District"
-              required
-            />
-          </div>
-
-        </section>
-        <section>
-
-          <div className="mb-6">
-            <label
-              htmlFor="state"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              State
-            </label>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              value={state}
-              onChange={handleChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="State"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="country"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Country
-            </label>
-            <input
-              type="text"
-              id="country"
-              name="country"
-              value={country}
-              onChange={handleChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="India"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="confirmPassword"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="text"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={confirmPassword}
-              onChange={handleChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder=".........."
-              required
-            />
-          </div>
-          <div className="flex items-start mb-6">
-            <div className="flex items-center h-5">
-              <input
-                id="remember"
-                type="checkbox"
-                value=""
-                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                required
-              />
-            </div>
-            <label
-              htmlFor="remember"
-              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              I agree with the{" "}
-              <a
-                href="#"
-                className="text-blue-600 hover:underline dark:text-blue-500"
-              >
-                terms and conditions
-              </a>
-              .
-            </label>
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={handleChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder=".........."
-              required
-            />
-          </div>
-
-          <button
-            onClick={handleSubmit}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Add To Server
-          </button>
-        </section>
-
-
-      </form>
+      <RightSection className="text-white">i am here</RightSection>
 
     </main>
   );

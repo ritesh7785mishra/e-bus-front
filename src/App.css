@@ -1,10 +1,27 @@
-* {
+body {
 	margin: 0;
 	box-sizing: border-box;
-	background-color: #17262a;
+	background: linear-gradient(#141e30, #243b55);
+	background-repeat: none;
 	padding: 0;
 }
 
 img {
 	width: 100%;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+.app-container {
+	/* background-image: url("/assets/welcome-bg.png"); */
+	background-repeat: none;
+	background-size: cover;
 }

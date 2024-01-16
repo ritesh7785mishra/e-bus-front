@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../Context";
-import Blobs from "../../components/Blobs";
 import { LeftSection } from "../../components/leftSection/leftSection";
 import { RightSection } from "../../components/rightSection/rightSection";
 
@@ -137,10 +136,7 @@ const ConductorHome = () => {
   return (
     <main className="flex">
       <LeftSection>
-        <p className="text-white">Left section</p>
-      </LeftSection>
-      <RightSection>
-        <div className="max-w-xl mx-auto m-4 p-4 ">
+        <div className="max-w-xl mx-auto m-4 p-4 form-box ">
           <h1 className="text-4xl text-white text-center font-semibold mb-10">
             Welcome,
             <span className="text-4xl text-green-500 tracking-wider ml-4 capitalize">
@@ -252,9 +248,9 @@ const ConductorHome = () => {
             </button>
           </div>
 
-          <div className="mb-5 flex">
+          <div className="flex ">
             <button
-              className=" py-2 px-4 text-white bg-red-500 hover:bg-red-700 rounded-md font-mono font-bold tracking-wider ml-auto"
+              className=" py-2 px-4 text-white bg-red-500 hover:bg-red-700 rounded-md font-mono font-bold tracking-wider mx-auto"
               onClick={() => {
                 localStorage.removeItem("conductorAuthToken");
                 setCurrentConductor({});
@@ -266,6 +262,9 @@ const ConductorHome = () => {
             </button>
           </div>
         </div>
+      </LeftSection>
+      <RightSection>
+        <p className="text-white">i am here</p>
       </RightSection>
 
     </main>

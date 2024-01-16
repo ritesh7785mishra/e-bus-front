@@ -190,13 +190,13 @@ const Home = () => {
     <main className="flex">
       <LeftSection>
         {/* <div className="map-component rounded-xl h-4/5 lg:h-[calc(100vh-30px)] lg:w-7/12  "> */}
-        <div ref={mapElement} className="w-full h-full rounded-lg"></div>
+        <div ref={mapElement} className="w-full h-full rounded-lg form-box"></div>
         {/* </div> */}
       </LeftSection>
 
       <RightSection>
         {/* <div className="max-w-3xl mx-auto lg:mx-0 lg:w-4/12 lg:mr-8"> */}
-        <div className="mx-auto">
+        <div className="mx-auto form-box">
           <div className="flex items-center justify-between mb-10 mt-5">
             <h1 className="text-4xl text-white text-center font-semibold ">
               Welcome,

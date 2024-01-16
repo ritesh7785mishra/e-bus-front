@@ -25,13 +25,13 @@ const ConductorLogin = () => {
   return (
     <main className="flex">
       <LeftSection>
-        <p className="bg-white">Left Section</p>
+        <p className="text-white">Left Section</p>
       </LeftSection>
       {/* <Blobs /> */}
       <RightSection>
         {/* <div className=" w-full sm:w-5/6 md:w-4/6 lg:w-3/6  mx-auto "> */}
-        <div className=" w-full">
-          <div className="w-full  px-4 mx-auto pt-6">
+        <div className=" form-box ">
+          <div className=" mx-auto ">
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6  rounded-lg  border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-10">
@@ -67,7 +67,7 @@ const ConductorLogin = () => {
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
-              <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+              <div className="flex-auto px-4  pt-0">
                 <div className="text-white text-center mb-3 font-bold">
                   <small>Or sign in with credentials</small>
                 </div>

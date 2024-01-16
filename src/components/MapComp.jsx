@@ -80,7 +80,7 @@ const MapComp = () => {
     };
   }, [longitude, latitude]);
 
-  return <div ref={mapElement} className="w-full h-full rounded-lg"></div>;
+  return <div ref={mapElement} className="w-full h-full form-box"></div>;
 };
 
 export default MapComp;

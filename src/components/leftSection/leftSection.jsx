@@ -2,7 +2,7 @@ import "./leftSection.css";
 
 export const LeftSection = ({ children }) => {
 	return (
-		<div className="left-section border  w-4/6 h-screen border-r-zinc-700 p-4 ">
+		<div className="left-section w-4/6 h-screen  p-4 overflow-scroll scrollbar-hide">
 			{children}
 		</div>
 	);
