@@ -5,7 +5,7 @@ import { RightSection } from "../../components/rightSection/rightSection";
 export default function AddAdmin() {
     return (
         <main className="flex">
-            <LeftSection>
+            <LeftSection >
                 <AdminForm />
             </LeftSection>
             <RightSection></RightSection>

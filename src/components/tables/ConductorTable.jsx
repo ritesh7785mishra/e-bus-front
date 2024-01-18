@@ -1,4 +1,4 @@
-export default function ConductorTable() {
+export default function ConductorTable({ all }) {
     return (
 
 

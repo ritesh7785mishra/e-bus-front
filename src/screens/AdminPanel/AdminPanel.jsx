@@ -1,13 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./AdminPanel.css"
 import { Context } from "../../Context";
 import { LeftSection } from "../../components/leftSection/leftSection";
 import { RightSection } from "../../components/rightSection/rightSection";
-import AdminTable from "../../components/tables/ConductorTable";
+import AdminTable from "../../components/tables/AdminTable";
+import { adminApi } from "../../api/adminApi";
+import { getAdmin, getAllAdmins } from "../../controllers/adminController";
 
 const AdminPanel = () => {
+
+
   const navigate = useNavigate();
+  const [adminArray, setAdminArray] = useState([])
   const {
     allConductors,
     fetchConductors,
@@ -16,9 +21,9 @@ const AdminPanel = () => {
     loader,
   } = useContext(Context);
 
-  useEffect(() => {
-    fetchConductors();
-  }, []);
+  // useEffect(() => {
+  //   fetchConductors();
+  // }, []);
 
   if (allConductors) {
     setLoader(false);
@@ -37,6 +42,24 @@ const AdminPanel = () => {
   //   },
   // ];
 
+  useEffect(() => {
+    async function getAdminData() {
+      const admin = await getAdmin();
+      if (admin) {
+        const allAdmin = await getAllAdmins()
+        setAdminArray(allAdmin)
+      } else {
+        navigate('/login')
+      }
+    }
+    getAdminData()
+  }, [])
+
+  function handleLogout(e) {
+    localStorage.clear();
+    navigate("/login")
+  }
+
   return (
     <main className="flex">
 
@@ -48,9 +71,12 @@ const AdminPanel = () => {
         <div className="flex justify-around mb-10">
           <button className="btn btn-primary">View Admin Table</button>
           <button className="btn btn-primary">View Conductor Table</button>
+          <button onClick={handleLogout} className="btn btn-primary">logout</button>
         </div>
 
-        <AdminTable></AdminTable>
+        <AdminTable
+          allAdmin={adminArray}
+        />
         {/* <div className=" rounded-lg overflow-hidden shadow-lg p-6">
           <div>
             <h2 className="text-3xl font-bold mb-10 text-white text-center">
@@ -125,6 +151,8 @@ const AdminPanel = () => {
             </tbody>
           </table>
         </div> */}
+
+
       </LeftSection>
       <RightSection>
 

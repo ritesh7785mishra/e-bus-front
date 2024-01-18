@@ -13,10 +13,10 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    contact_no: "",
   });
-  const { name, email, password, confirmPassword } = userData;
-  // console.log(userData, "This is user data ");
+  const { name, email, password, contact_no } = userData;
+  console.log(userData, "This is user data ");
   const handleChange = (e) => {
     setUserData({
       ...userData,
@@ -31,82 +31,32 @@ const Signup = () => {
           <h2 className="text-white text-3xl font-bold mb-6 text-center">
             Sign Up
           </h2>
-
-
-
           <div className=" mx-auto  p-6 max-w-xl user-box">
             <div className="mb-5">
               <UploadProfile></UploadProfile>
             </div>
-
-
             <form>
-              <div className="mb-4">
-                <label className="block text-white font-bold mb-2" htmlFor="name">
-                  Name
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline capitalize"
-                  id="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  name="name"
-                  value={name}
-                  onChange={handleChange}
-                  required
-                />
+              <div className="flex justify-between">
+                <div className="field-box">
+                  <input type="name" name="name" value={name} required="" onChange={handleChange} />
+                  <label>Name</label>
+                </div>
+                <div className="field-box">
+                  <input type="email" name="email" value={email} required="" onChange={handleChange} />
+                  <label>Email</label>
+                </div>
               </div>
-              <div className="mb-4">
-                <label className="block text-white font-bold mb-2" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  name="email"
-                  onChange={handleChange}
-                  required
-                />
+              <div className="flex justify-between">
+                <div className="field-box">
+                  <input type="number" name="contact_no" value={contact_no} required="" onChange={handleChange} />
+                  <label>Contact Number</label>
+                </div>
+                <div className="field-box">
+                  <input type="password" name="password" value={password} required="" onChange={handleChange} />
+                  <label>Password</label>
+                </div>
               </div>
-              <div className="mb-4">
-                <label
-                  className="block text-white font-bold mb-2"
-                  htmlFor="password"
-                >
-                  Password
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  name="password"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              {/* <div className="mb-6">
-                <label
-                  className="block font-bold mb-2"
-                  htmlFor="confirmPassword"
-                >
-                  Confirm Password
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="Confirm your password"
-                  value={confirmPassword}
-                  name="confirmPasword"
-                  onChange={handleChange}
-                  required
-                />
-              </div> */}
+
               <div className="flex justify-between items-center ">
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "

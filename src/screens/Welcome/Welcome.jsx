@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Welcome.css";
 import { useNavigate } from "react-router-dom";
 import BottomDesign from "../../components/BottomDesign";
@@ -7,6 +7,11 @@ import { motion } from "framer-motion";
 
 const Welcome = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/login")
+  }, [])
+
   return (
     <motion.div
       className="welcome-page"
