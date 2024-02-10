@@ -20,6 +20,8 @@ import Signup from "./screens/Signup/Signup";
 import Loader from "./components/Loader";
 import { Context } from "./Context";
 import AddAdmin from "./screens/AdminPanel/AddAdmin";
+import ConductorTable from "./screens/ConductorTable/ConductorTable";
+import AdminTable from "./screens/AdminTable/AdminTable";
 // import Navbar from "./components/navbar";
 // import ProfileUpload from "./components/uploadComponent";
 
@@ -39,6 +41,8 @@ function App() {
             <Route exact path="/user-panel" element={<Home />} />
             <Route exact path="/conductor-login" element={<ConductorLogin />} />
             <Route exact path="/admin-panel" element={<AdminPanel />} />
+            <Route exact path="/admin-table" element={<AdminTable />} />
+            <Route exact path="/conductor-table" element={<ConductorTable />} />
             <Route exact path="/add-admin" element={<AddAdmin />} />
             <Route exact path="/add-conductor" element={<AddConductor />} />
             <Route exact path="/conductor-panel" element={<ConductorHome />} />

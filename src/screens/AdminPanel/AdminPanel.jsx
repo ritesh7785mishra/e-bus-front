@@ -1,33 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./AdminPanel.css"
-import { Context } from "../../Context";
+
 import { LeftSection } from "../../components/leftSection/leftSection";
 import { RightSection } from "../../components/rightSection/rightSection";
-import AdminTable from "../../components/tables/AdminTable";
-import { adminApi } from "../../api/adminApi";
-import { getAdmin, getAllAdmins } from "../../controllers/adminController";
+
+import { getAdmin } from "../../controllers/adminController";
+import { useRecoilState } from "recoil";
+import { currentAdmin } from "../../store/admin/atom";
+
 
 const AdminPanel = () => {
-
-
   const navigate = useNavigate();
-  const [adminArray, setAdminArray] = useState([])
-  const {
-    allConductors,
-    fetchConductors,
-    handleConductorDelete,
-    setLoader,
-    loader,
-  } = useContext(Context);
 
-  // useEffect(() => {
-  //   fetchConductors();
-  // }, []);
 
-  if (allConductors) {
-    setLoader(false);
-  }
+  const [superAdmin, setSuperAdmin] = useState(false)
+  const [adminC, setAdminC] = useRecoilState(currentAdmin)
+
+
+
 
   // const conductors = [
   //   {
@@ -43,22 +34,41 @@ const AdminPanel = () => {
   // ];
 
   useEffect(() => {
-    async function getAdminData() {
-      const admin = await getAdmin();
-      if (admin) {
-        const allAdmin = await getAllAdmins()
-        setAdminArray(allAdmin)
-      } else {
-        navigate('/login')
+    if (localStorage.getItem("token") == 'undefined') {
+      navigate("/login")
+    } else {
+      async function preSet() {
+        const admin = await getAdmin();
+
+        if (admin) {
+          setAdminC(admin)
+
+          if (admin.role.includes("superAdmin")) {
+            localStorage.setItem("role", "superAdmin")
+            setSuperAdmin(true)
+          } else {
+            localStorage.setItem("role", "admin")
+            setSuperAdmin(false)
+          }
+
+        } else {
+          navigate('/login')
+        }
       }
+      preSet()
     }
-    getAdminData()
   }, [])
+
+
 
   function handleLogout(e) {
     localStorage.clear();
+    setSuperAdmin(false)
+    setAdminC({})
     navigate("/login")
   }
+
+
 
   return (
     <main className="flex">
@@ -68,89 +78,33 @@ const AdminPanel = () => {
           <h1 className="text-white text-3xl">Admin Panel</h1>
         </div>
 
-        <div className="flex justify-around mb-10">
-          <button className="btn btn-primary">View Admin Table</button>
-          <button className="btn btn-primary">View Conductor Table</button>
-          <button onClick={handleLogout} className="btn btn-primary">logout</button>
-        </div>
+        <div className="mb-10">
 
-        <AdminTable
-          allAdmin={adminArray}
-        />
-        {/* <div className=" rounded-lg overflow-hidden shadow-lg p-6">
-          <div>
-            <h2 className="text-3xl font-bold mb-10 text-white text-center">
-              Conductor Information
-            </h2>
 
-            <div className="flex  justify-between px-10 mb-10">
-              <div className="flex items-center ">
-                <button
-                  className="py-2 px-4 bg-green-500 hover:bg-green-700 text-white rounded-lg ml-5"
-                  onClick={() => {
-                    navigate("/add-conductor");
-                  }}
-                >
-                  Add Conductor
-                </button>
-              </div>
+          <div className="btn-container flex flex-col ">
+            {superAdmin && <div className="flex justify-evenly mb-10">
+              <Link to={"/admin-table"}>
+                <button className="btn btn-primary">View Admin Table</button>
+              </Link>
 
-              <div className="flex items-center">
-                <p className="text-white">Back To Login Page</p>
-                <button
-                  className="py-2 px-4 bg-green-500 hover:bg-green-700 text-white rounded-lg ml-5"
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  Login Page
-                </button>
-              </div>
+              <Link to={"/add-admin"}>
+                <button className="btn btn-primary">Add Admin</button>
+              </Link>
+
+            </div>}
+            <div className="flex justify-evenly mb-10">
+              <Link to={"/conductor-table"}>
+                <button className="btn btn-primary">View Conductor Table</button>
+              </Link>
+              <Link to={"/add-conductor"}>
+                <button className="btn btn-primary">Add Conductor</button>
+              </Link>
             </div>
+
+            <button onClick={handleLogout} className="btn btn-primary">logout</button>
           </div>
-          <table className="table-auto w-full text-center">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="px-4 py-2 text-white">Conductor ID</th>
-                <th className="px-4 py-2 text-white">Conductor Name</th>
-                <th className="px-4 py-2 text-white">Mobile Number</th>
-                <th className="px-4 py-2 text-white">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allConductors.length > 0 &&
-                allConductors.map((conductor) => (
-                  <tr key={conductor.id}>
-                    <td className="border px-4 py-2 text-white">
-                      {conductor.properties.email}
-                    </td>
-                    <td className="border px-4 py-2 text-white">
-                      {conductor.name}
-                    </td>
-                    <td className="border px-4 py-2 text-white">
-                      {conductor.properties.phoneNumber}
-                    </td>
-                    <td className="border px-4 py-2 flex text-white justify-evenly">
-                      <button
-                        className="bg-gray-400  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
-                        disabled
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-3"
-                        onClick={() => {
-                          handleConductorDelete(conductor.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div> */}
+
+        </div>
 
 
       </LeftSection>

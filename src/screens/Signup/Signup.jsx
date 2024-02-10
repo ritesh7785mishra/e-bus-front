@@ -24,6 +24,7 @@ const Signup = () => {
     });
   };
 
+
   return (
     <main className="flex">
       <LeftSection>

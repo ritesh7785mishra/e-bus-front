@@ -3,46 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { RightSection } from "../../components/rightSection/rightSection";
 import { LeftSection } from "../../components/leftSection/leftSection";
 import MapComp from "../../components/MapComp";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { textState } from "../../store/admin/atom";
-import { charCountState } from "../../store/admin/selector";
 import "./Login.css"
-import InputBox from "../../components/ui/InputBox";
 import { adminLogin } from "../../controllers/adminController";
+import { conductorLogin } from "../../controllers/conductorController";
 
 const Login = () => {
   const navigate = useNavigate();
-  // const { userLogin, getUserProfile, setLoader } = useContext(Context);
 
-  // useEffect(() => {
-  //   // let authToken = localStorage.getItem("authToken");
-  //   // if (authToken) {
-  //   //   getUserProfile();
-  //   //   navigate("/user-panel");
-  //   // }
-  // }, []);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
-
   });
 
   let [selectedRole, setSelectedRole] = useState("user")
 
-  // const [showPass, setShowPass] = useState(false);
-  // const [warning, setWarning] = useState(false);
+  console.log("selectedRole", selectedRole);
+
   const { email, password } = loginData;
 
   const handleLogin = async () => {
-    if (selectedRole = "admin") {
-      const token = await adminLogin(loginData)
-      localStorage.setItem("token", token)
-      localStorage.setItem("role", "admin")
-      setSelectedRole("")
-      debugger;
-      navigate('/admin-panel')
-    } else if (selectedRole = "conductor") {
+    if (selectedRole === "admin") {
 
+      await adminLogin(loginData).then(() => {
+        setSelectedRole("")
+        navigate('/admin-panel')
+      })
+
+    } else if (selectedRole == "conductor") {
+      debugger;
+      await conductorLogin(loginData).then(() => {
+        setSelectedRole("")
+        navigate('/conductor-panel')
+      })
     } else {
 
     }
@@ -60,27 +52,6 @@ const Login = () => {
   }
 
 
-  // const validation = async () => {
-  //   if (email == "" || password == "") {
-  //     setWarning(true);
-  //   } else if (
-  //     email == "ritesh7785mishra@gmail.com" &&
-  //     password == "@123Ritesh"
-  //   ) {
-  //     navigate("/admin-Panel");
-  //   } else {
-  //     await userLogin(loginData).then(() => {
-  //       let authToken = localStorage.getItem("authToken");
-  //       if (authToken) {
-  //         navigate("/user-panel");
-  //       } else {
-  //         setLoader(false);
-  //         navigate("/login");
-  //         alert("Not a valid user");
-  //       }
-  //     });
-  //   }
-  // };
 
   return (
     <main className="flex">
@@ -88,9 +59,8 @@ const Login = () => {
       <LeftSection>
         <MapComp></MapComp>
       </LeftSection>
-      {/* <Blobs /> */}
       <RightSection>
-        {/* <div className=" w-full sm:w-5/6 md:w-4/6 lg:w-3/6  mx-auto"> */}
+
         <div className="form-box  mx-auto mt-20">
           <h2>Login</h2>
           <form>
@@ -115,15 +85,26 @@ const Login = () => {
               </select>
 
             </div>
-            <button onClick={handleLogin}>
-              <a href="#">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Login
-              </a>
-            </button>
+            <div className="flex justify-between">
+              <button onClick={handleLogin}>
+                <a href="#">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  Login
+                </a>
+              </button>
+              <button onClick={handleLogin}>
+                <a href="/signup">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  Signup
+                </a>
+              </button>
+            </div>
 
 
           </form>

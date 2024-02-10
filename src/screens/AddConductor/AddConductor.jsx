@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { Context } from "../../Context";
-import Blobs from "../../components/Blobs";
 import { LeftSection } from "../../components/leftSection/leftSection";
 import { RightSection } from "../../components/rightSection/rightSection";
 import UploadProfile from "../../components/uploadProfile";
+import { addConductor } from "../../controllers/adminController";
 
 
 const AddConductor = () => {
-  const { handleAddConductor, fetchConductors } = useContext(Context);
   const navigate = useNavigate();
-  const [userName, setUserName] = useState("");
 
-  const [userProperties, setUserProperties] = useState({
+  const [conductor, setConductor] = useState({
     profile_img: "/assets/profile_img.jpg",
     name: "",
     govt_id: "",
@@ -21,7 +17,6 @@ const AddConductor = () => {
     contact_no: "",
     aadhar_no: "",
     password: "",
-
   });
 
   const {
@@ -32,26 +27,22 @@ const AddConductor = () => {
     password,
     contact_no,
     aadhar_no
-  } = userProperties;
+  } = conductor;
 
   function handleChange(e) {
-    setUserProperties({
-      ...userProperties,
+    setConductor({
+      ...conductor,
       [e.target.name]: e.target.value,
     });
   }
 
-  function handleNameChange(e) {
-    setUserName(e.target.value);
-  }
-
   async function handleSubmit() {
-    let userObj = { name: userName, properties: { ...userProperties } };
-    handleAddConductor(userObj)
-      .then(() => fetchConductors())
-      .then(() => {
-        navigate("/admin-panel");
-      });
+    console.log("conductor", conductor);
+
+    await addConductor(conductor).then(() => {
+      navigate('/admin-panel')
+    })
+
   }
 
   return (
@@ -115,17 +106,18 @@ const AddConductor = () => {
               <button
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "
                 onClick={() => {
-                  postUser(userData);
-                  navigate("/");
+                  handleSubmit()
                 }}
               >
-                Sign Up
+                Add Conductor
               </button>
 
               <p
                 className="text-green-400 font-bold cursor-pointer"
                 onClick={() => {
+                  localStorage.clear();
                   navigate("/login");
+
                 }}
               >
                 Back to login

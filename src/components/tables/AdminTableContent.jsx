@@ -1,13 +1,34 @@
-import { deleteAdmin } from "../../controllers/adminController";
+import { useEffect, useState } from "react";
+import { deleteAdmin, getAllAdmins } from "../../controllers/adminController";
+import { useRecoilValue } from "recoil";
+import { currentAdmin } from "../../store/admin/atom";
 
 
-export default function AdminTable({ allAdmin }) {
+export default function AdminTableContent() {
+    const adminC = useRecoilValue(currentAdmin)
+    console.log(adminC);
+    debugger;
+
+    const [allAdmin, setAllAdmin] = useState([]);
+    useEffect(() => {
+        async function getAdminData() {
+            const adminArray = await getAllAdmins()
+            setAllAdmin(adminArray)
+        }
+
+        getAdminData();
+
+
+    }, [])
+
+    console.log(allAdmin)
+
 
     async function handleDelete(id) {
         console.log(id);
         const deletedAdmin = await deleteAdmin(id)
         console.log('deletedAdmin', deletedAdmin);
-        debugger;
+
     }
 
 
@@ -37,7 +58,7 @@ export default function AdminTable({ allAdmin }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {allAdmin.map((admin) => (
+                    {allAdmin && allAdmin.map((admin) => (
                         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {admin.name}

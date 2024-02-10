@@ -1,33 +1,20 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../../Context";
 import { LeftSection } from "../../components/leftSection/leftSection";
 import { RightSection } from "../../components/rightSection/rightSection";
+import { getConductor, updateLocation, updateSeatStatus, updateRoute } from "../../controllers/conductorController";
+import { currentConductor } from "../../store/conductor/atom";
+import { useRecoilState } from "recoil";
 
 const ConductorHome = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState("conductorName");
-  const [id, setId] = useState("Conductor id");
+  const [conductorState, setConductorState] = useRecoilState(currentConductor)
   const [currentRoute, setCurrentRoute] = useState("");
   const [fullBtn, setFullBtn] = useState(false);
   const [standingBtn, setStandingBtn] = useState(false);
   const [emptySeatsBtn, setEmptySeatsBtn] = useState(true);
   const [shareLocationBtn, setShareLocationBtn] = useState(false);
   const [stopLocationBtn, setStopLocationBtn] = useState(false);
-
-  console.log(shareLocationBtn, stopLocationBtn);
-  const {
-    currentConductor,
-    setCurrentConductor,
-    getConductorProfile,
-    setConductorLoggedIn,
-    setLoader,
-  } = useContext(Context);
-
-  if (currentConductor) {
-    setLoader(false);
-  }
-  const { VITE_baseServerUrl } = import.meta.env;
 
   const routeOptions = [
     "SanjeevNagar-Tatmil-Rawatpur-IIT",
@@ -44,19 +31,27 @@ const ConductorHome = () => {
   ];
 
   useEffect(() => {
-    if (localStorage.getItem("conductorAuthToken")) {
-      getConductorProfile();
+    if (localStorage.getItem("token") == 'undefined') {
+      navigate("/login")
+    } else {
+      async function preSet() {
+        const conductor = await getConductor()
+
+        if (conductor) {
+          setConductorState(conductor)
+
+          console.log(conductor);
+          debugger;
+        } else {
+          navigate('/login')
+        }
+      }
+      preSet()
     }
   }, []);
 
-  useEffect(() => {
-    if (currentConductor) {
-      setName(currentConductor.name);
-      setId(currentConductor.conductorId);
-    }
-  }, [currentConductor]);
 
-  console.log(currentRoute);
+
 
   useEffect(() => {
     // function to send position to the mongodb location database.
@@ -65,18 +60,9 @@ const ConductorHome = () => {
       navigator.geolocation.getCurrentPosition(async function (position) {
         let { latitude } = position.coords;
         let { longitude } = position.coords;
-
-        fetch(`${VITE_baseServerUrl}/conductor/update-location`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: currentConductor.id,
-            longlat: [longitude, latitude],
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => console.log(data.data, "Send location function ran"))
-          .catch((error) => console.log(error));
+        let longlat = [longitude, latitude]
+        console.log(longlat);
+        updateLocation(longlat)
       });
     };
     let interval;
@@ -93,45 +79,20 @@ const ConductorHome = () => {
     };
   }, [shareLocationBtn, stopLocationBtn]);
 
-  const updateSeatStatus = async (seatStatus) => {
-    const res = await fetch(
-      `${VITE_baseServerUrl}/conductor/update-seat-status`,
-      {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          seatStatus: seatStatus,
-          id: currentConductor.id,
-        }),
-      }
-    );
+  const handleRouteChange = async (e) => {
+    const route = e.target.value;
+    console.log(route);
 
-    const data = await res.json();
-    console.log("This is Seat status update function", data);
-  };
-
-  const updateCurrentRoute = async (currentRoute) => {
-    try {
-      const res = await fetch(
-        `${VITE_baseServerUrl}/conductor/update-current-route`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            currentRoute: currentRoute,
-            id: currentConductor.id,
-          }),
-        }
-      );
-
-      const data = await res.json();
-      if (data) {
-        console.log(data);
-      }
-    } catch (error) {
-      console.log(error.messag);
+    if (route == "Choose Your Route") {
+      setCurrentRoute("");
+      setShareLocationBtn(false);
+    } else {
+      setCurrentRoute(route);
+      updateRoute(route);
     }
-  };
+  }
+
+
 
   return (
     <main className="flex">
@@ -140,7 +101,7 @@ const ConductorHome = () => {
           <h1 className="text-4xl text-white text-center font-semibold mb-10">
             Welcome,
             <span className="text-4xl text-green-500 tracking-wider ml-4 capitalize">
-              {name}
+              Name
             </span>
           </h1>
 
@@ -154,18 +115,7 @@ const ConductorHome = () => {
             id="routes"
             className="border border-gray-300 text-white text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-green-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
             value={currentRoute}
-            onChange={(e) => {
-              const route = e.target.value;
-              console.log(route);
-
-              if (route == "Choose Your Route") {
-                setCurrentRoute("");
-                setShareLocationBtn(false);
-              } else {
-                setCurrentRoute(route);
-                updateCurrentRoute(currentRoute);
-              }
-            }}
+            onChange={handleRouteChange}
           >
             <option defaultValue="">Choose Your Route</option>
 
@@ -252,10 +202,9 @@ const ConductorHome = () => {
             <button
               className=" py-2 px-4 text-white bg-red-500 hover:bg-red-700 rounded-md font-mono font-bold tracking-wider mx-auto"
               onClick={() => {
-                localStorage.removeItem("conductorAuthToken");
-                setCurrentConductor({});
-                setConductorLoggedIn(false);
-                navigate("/conductor-login");
+                localStorage.clear();
+                setConductorState({});
+                navigate("/login");
               }}
             >
               Logout
