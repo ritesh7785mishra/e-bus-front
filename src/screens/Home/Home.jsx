@@ -1,27 +1,22 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as tt from "@tomtom-international/web-sdk-maps";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import "./Home.css";
-// import MapComp from "../../components/MapComp";
-import { Context } from "../../Context";
 import { LeftSection } from "../../components/leftSection/leftSection";
 import { RightSection } from "../../components/rightSection/rightSection";
+import { findAllBuses, getRouteSelectedBuses, getUser } from "../../controllers/userController";
+import { useRecoilState } from "recoil";
+import { currentUser } from "../../store/user/atom";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { currentUser, handleUserLogout, getUserProfile, setLoader } =
-    useContext(Context);
-
+  const [userC, setUserC] = useRecoilState(currentUser);
   const [currentRoute, setCurrentRoute] = useState("");
-
-  const { name } = currentUser;
   const { VITE_apiKey, VITE_baseServerUrl } = import.meta.env;
-
   //Using useRef hook to get JS ability to add map to the react application because tom tom api doesn't work good with the react element.
   const mapElement = useRef();
   const [allLocationArray, setAllLocationArray] = useState([]);
-
   const [map, setMap] = useState({});
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
@@ -41,7 +36,27 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    getUserProfile();
+    if (localStorage.getItem("token") == 'undefined') {
+      navigate("/login")
+    } else {
+      async function preSet() {
+        const user = await getUser();
+
+        console.log(user);
+        debugger;
+
+        if (user) {
+          setUserC(user)
+        } else {
+          navigate('/login')
+        }
+      }
+      preSet()
+    }
+  }, [])
+
+  useEffect(() => {
+
     navigator.geolocation.getCurrentPosition(function (position) {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
@@ -90,7 +105,7 @@ const Home = () => {
 
         addDeliveryMarker(lObj, map);
       });
-      // setAllLocationArray(newAllLocation);
+      setAllLocationArray(newAllLocation);
     };
 
     // allLocationArray.map((location) => {
@@ -102,12 +117,11 @@ const Home = () => {
     // });
 
     async function fetchLocations() {
-      const res = await fetch(`${VITE_baseServerUrl}/user/all-buses`);
-      const data = await res.json();
+      const data = await findAllBuses()
 
       if (data) {
         console.log("Fetch location of all buses ran");
-        const allLocationData = data.data;
+        const allLocationData = data;
         locationObjArray(allLocationData);
       }
     }
@@ -157,33 +171,24 @@ const Home = () => {
     };
   }, [longitude, latitude]);
 
-  if (currentUser) {
-    setLoader(false);
-  }
+
 
   const fetchSelectedRouteBuses = async (route) => {
     try {
-      const res = await fetch(
-        `${VITE_baseServerUrl}/user/route-selected-buses`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            route: route,
-          }),
-        }
-      );
-
-      const data = await res.json();
-
+      const data = await getRouteSelectedBuses(route)
       if (data) {
-        console.log(data.data);
-        locationObjArray(data.data);
+        console.log(data);
+        // locationObjArray(data.data);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  const handleUserLogout = async () => {
+    localStorage.clear();
+    navigate('/login')
+  }
 
   return (
     // <div className="absolute top-0 w-full h-full p-4 lg:flex lg:justify-between"></div>
@@ -209,7 +214,6 @@ const Home = () => {
               className="text-white font-mono text-xl bg-red-600 hover:bg-red-700 active:bg-red-700 py-1 px-4 rounded "
               onClick={() => {
                 handleUserLogout();
-                navigate("/login");
               }}
             >
               Logout

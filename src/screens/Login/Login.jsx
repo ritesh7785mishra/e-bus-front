@@ -6,6 +6,7 @@ import MapComp from "../../components/MapComp";
 import "./Login.css"
 import { adminLogin } from "../../controllers/adminController";
 import { conductorLogin } from "../../controllers/conductorController";
+import { userLogin } from "../../controllers/userController";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,12 +31,17 @@ const Login = () => {
       })
 
     } else if (selectedRole == "conductor") {
-      debugger;
+
       await conductorLogin(loginData).then(() => {
         setSelectedRole("")
         navigate('/conductor-panel')
       })
     } else {
+      await userLogin(loginData).then(() => {
+        setSelectedRole("")
+        navigate('/user-panel')
+      })
+
 
     }
   }
@@ -73,17 +79,17 @@ const Login = () => {
               <label>Password</label>
             </div>
 
-            <div className=" flex justify-center">
-              <select value={selectedRole}
-                className="form-select" aria-label="Default select example"
+            <div className="flex justify-center">
+              <select
+                value={selectedRole}
+                className="login-select"
+                aria-label="Default select example"
                 onChange={handleRoleChange}
               >
-
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-                <option value="conductor">Conductor</option>
+                <option className="login-option" value="user">User</option>
+                <option className="login-option" value="admin">Admin</option>
+                <option className="login-option" value="conductor">Conductor</option>
               </select>
-
             </div>
             <div className="flex justify-between">
               <button onClick={handleLogin}>
@@ -95,7 +101,9 @@ const Login = () => {
                   Login
                 </a>
               </button>
-              <button onClick={handleLogin}>
+
+
+              {selectedRole == "user" && <button>
                 <a href="/signup">
                   <span></span>
                   <span></span>
@@ -103,7 +111,7 @@ const Login = () => {
                   <span></span>
                   Signup
                 </a>
-              </button>
+              </button>}
             </div>
 
 

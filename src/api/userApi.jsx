@@ -1,4 +1,4 @@
-const { VITE_baseServerUrl } = process.env;
+const { VITE_baseServerUrl } = import.meta.env;
 export const userApi = {
 	userSignup: `${VITE_baseServerUrl}/user/signup`,
 	login: `${VITE_baseServerUrl}/user/auth/login`,

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { userApi } from "../api/userApi";
 
 
@@ -9,7 +10,7 @@ export const userSignup = async (data) => {
 
 export const userLogin = async (data) => {
     const res = await axios.post(`${userApi.login}`, data)
-    return res.data.token
+    localStorage.setItem("token", res.data.token)
 }
 
 export const getUser = async () => {
@@ -23,7 +24,7 @@ export const getUser = async () => {
     return res.data.user
 }
 
-export const getRouteSelectedBuses = async ({ route }) => {
+export const getRouteSelectedBuses = async (route) => {
     const data = { route }
     let token = localStorage.getItem("token")
     const res = await axios.post(`${userApi.routeSelectedBuses}`, data, {
@@ -48,15 +49,5 @@ export const findAllBuses = async () => {
     return res.data.data
 }
 
-export const updateSeatSeatStatus = async () => {
 
-    let token = localStorage.getItem("token")
-    const res = await axios.delete(`${conductorApi.updateSeatSeatStatus}`, {
-        headers: {
-            "Authorization": token
-        },
-    })
-
-    return res.data.user
-}
 

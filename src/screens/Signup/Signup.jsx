@@ -1,14 +1,13 @@
-import React, { useState, useContext } from "react";
-import { Context } from "../../Context";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LeftSection } from "../../components/leftSection/leftSection";
 import { RightSection } from "../../components/rightSection/rightSection";
 import UploadProfile from "../../components/uploadProfile";
+import { userSignup } from "../../controllers/userController";
 
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { postUser } = useContext(Context);
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -16,13 +15,20 @@ const Signup = () => {
     contact_no: "",
   });
   const { name, email, password, contact_no } = userData;
-  console.log(userData, "This is user data ");
+
   const handleChange = (e) => {
     setUserData({
       ...userData,
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleSubmit = async () => {
+    const res = await userSignup(userData)
+    if (res) {
+      navigate('/login')
+    }
+  }
 
 
   return (
@@ -36,7 +42,7 @@ const Signup = () => {
             <div className="mb-5">
               <UploadProfile></UploadProfile>
             </div>
-            <form>
+            <div>
               <div className="flex justify-between">
                 <div className="field-box">
                   <input type="name" name="name" value={name} required="" onChange={handleChange} />
@@ -61,10 +67,7 @@ const Signup = () => {
               <div className="flex justify-between items-center ">
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "
-                  onClick={() => {
-                    postUser(userData);
-                    navigate("/");
-                  }}
+                  onClick={handleSubmit}
                 >
                   Sign Up
                 </button>
@@ -78,7 +81,7 @@ const Signup = () => {
                   Back to login
                 </p>
               </div>
-            </form>
+            </div>
           </div>
 
         </section>
